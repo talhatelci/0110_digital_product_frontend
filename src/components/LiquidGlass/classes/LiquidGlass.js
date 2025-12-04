@@ -142,10 +142,11 @@ export default class LiquidGlassMeshes extends Three {
     this.references.logoOverlay = document.getElementById(
       "hero-section-logo-overlay"
     );
+    this.references.logoOverlayBorder = document.getElementById(
+      "hero-section-logo-overlay-border"
+    );
     this.references.cards = document.getElementById("what-we-do-cards");
     this.references.mobileBar = document.getElementById("mobile-bar");
-
-    this.references.rainbow = document.getElementById("hero-section-rainbow");
   }
 
   setPanel() {
@@ -296,7 +297,6 @@ export default class LiquidGlassMeshes extends Three {
         material.color = new THREE.Color(1, 1, 1).multiplyScalar(1.0);
         if (this.capsule.mesh) {
           this.capsule.mesh.visible = true;
-          this.references.rainbow.style.opacity = "0.8";
         }
 
         if (this.card.mesh) {
@@ -305,6 +305,7 @@ export default class LiquidGlassMeshes extends Three {
         }
 
         this.references.logoOverlay.style.display = "none";
+        this.references.logoOverlayBorder.style.display = "block";
       });
     }, 300);
 
@@ -540,6 +541,15 @@ export default class LiquidGlassMeshes extends Three {
         capsule.center.y =
           rect.top + rect.height * 0.5 - this.sizes.height * 0.5 + 52;
 
+        this.references.logoOverlayBorder.style.left =
+          rect.left + rect.width * 0.5 + "px";
+        this.references.logoOverlayBorder.style.top =
+          rect.top + rect.height * 0.5 + "px";
+        this.references.logoOverlayBorder.style.width =
+          capsule.width + 36 + "px";
+        this.references.logoOverlayBorder.style.height =
+          capsule.height * 0.5 + 52 + "px";
+
         capsule.limitTop = capsule.center.y - capsule.rangeTop;
         capsule.limitBottom = capsule.center.y + capsule.rangeBottom;
 
@@ -598,7 +608,7 @@ export default class LiquidGlassMeshes extends Three {
           mesh.add(layer);
 
           let cutoutGeometry = new THREE.PlaneGeometry(
-            capsule.width + 64,
+            capsule.width + 32,
             capsule.height * 0.5 + 48
           );
           cutoutGeometry.rotateX(-Math.PI * 0.5);
@@ -661,6 +671,8 @@ export default class LiquidGlassMeshes extends Three {
       // capsule.mesh.position.z = targetY; // Instant update
 
       capsule.mesh.position.z -= (capsule.mesh.position.z - targetY) * 0.03;
+      this.references.logoOverlayBorder.style.top =
+        capsule.mesh.position.z + this.sizes.height * 0.5 + "px";
 
       let p =
         1 -

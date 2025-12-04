@@ -93,7 +93,7 @@ export default function HeroSection({ triggerGlow }: HeroSectionProps) {
 
         <div
           id="hero-section-logo-overlay"
-          className="absolute inset-0 bg-[#0e0e0e]"
+          className="z-50 absolute inset-0 bg-[#0e0e0e]"
           data-html2canvas-ignore
         ></div>
 
@@ -103,6 +103,12 @@ export default function HeroSection({ triggerGlow }: HeroSectionProps) {
           className="absolute top-[calc(100%+1rem)] w-full left-0 scale-x-125 h-24 opacity-0 hidden"
         />
       </div>
+
+      <div
+        id="hero-section-logo-overlay-border"
+        className="absolute w-48 h-48 top-0 left-0 -translate-x-1/2 translate-y-0 bg-transparent z-[100] pointer-events-none hidden border-8 border-[#0e0e0e] border-t-0"
+        data-html2canvas-ignore
+      ></div>
 
       <CollaboratePopup
         isOpen={showPopup}
