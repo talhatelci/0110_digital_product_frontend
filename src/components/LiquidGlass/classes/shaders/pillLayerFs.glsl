@@ -7,9 +7,21 @@ uniform float uProgress;
 
 varying vec2 vUv;
 
+float inverseLerp(float v, float minValue, float maxValue) {
+  return (v - minValue) / (maxValue - minValue);
+}
+
+float remap(float v, float inMin, float inMax, float outMin, float outMax) {
+  float t = inverseLerp(v, inMin, inMax);
+  return mix(outMin, outMax, t);
+}
+
 void main() {
 
-  vec4 rainbowTexture = texture2D(uTexture, vUv);
+  vec2 rainbowUv = vUv;
+  rainbowUv.x = remap(rainbowUv.x, 0.0, 1.0, -0.05, 1.05);
+
+  vec4 rainbowTexture = texture2D(uTexture, rainbowUv);
   vec3 color = rainbowTexture.rgb;
   float alpha = 1.0;
 
@@ -20,13 +32,13 @@ void main() {
   // alpha *= smoothstep(0.1, 0.8, mask1);
 
   vec2 discardUv = vUv;
-  discardUv.y += uProgress * 0.2;
+  discardUv.y += uProgress * 0.25;
   float discardMask = texture2D(uMask2, discardUv).r;
   discardMask = smoothstep(0.4, 0.6, discardMask);
-  if (discardMask > 0.1) discard;
+  if (discardMask > 0.5) discard;
 
   vec2 mask2Uv = vUv;
-  mask2Uv.y += uProgress * 0.34;
+  mask2Uv.y += uProgress * 0.42;
   float mask2 = texture2D(uMask2, mask2Uv).r;
   mask2 = smoothstep(0.6, 0.4, mask2);
   // color = vec3(mask2);

@@ -326,7 +326,10 @@ export default class LiquidGlassMeshes extends Three {
     this.textures.glass = glass;
 
     let rainbow = loader.load("RainbowPng.png");
+    rainbow.wrapS = THREE.MirroredRepeatWrapping;
+    rainbow.wrapT = THREE.MirroredRepeatWrapping;
     // rainbow.colorSpace = THREE.SRGBColorSpace;
+
     this.textures.rainbow = rainbow;
 
     let mask1 = loader.load("PillMask1.png");
@@ -583,7 +586,7 @@ export default class LiquidGlassMeshes extends Three {
           let layer = new THREE.Mesh(layerGeometry, layerMaterial);
           layer.renderOrder = 1;
 
-          layer.position.set(0, -200, capsule.height * 0.25);
+          layer.position.set(0, -200, capsule.height * 0.25 - 8);
           capsule.layer = layer;
 
           mesh.add(layer);
