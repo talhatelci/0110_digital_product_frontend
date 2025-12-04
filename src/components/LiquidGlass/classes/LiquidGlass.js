@@ -26,14 +26,14 @@ import { clamp, inverseLerp, mapLinear } from "three/src/math/MathUtils.js";
 const CAPSULE_PARAMS = {
   // Physical Material
   roughness: 0,
-  metalness: 0.07,
-  clearcoat: 0.4,
-  clearcoatRoughness: 0.05,
-  ior: 1.1,
+  metalness: 0.0,
+  clearcoat: 0.0,
+  clearcoatRoughness: 0.0,
+  ior: 1.5,
   iridescence: 1,
   iridescenceIOR: 1,
-  thickness: 80,
-  reflectivity: 0.15,
+  thickness: 100,
+  reflectivity: 0.25,
 
   // Transition Material
   transmissionSampler: true,
@@ -100,6 +100,7 @@ export default class LiquidGlassMeshes extends Three {
     this.loadTextures();
 
     this.setPanel();
+    this.setLighting();
 
     this.setMaterials();
     this.addCapsuleMesh();
@@ -165,6 +166,13 @@ export default class LiquidGlassMeshes extends Three {
     folder.add(params, "toneMappingExposure", 0, 6, 0.01).onChange((value) => {
       this.renderer.toneMappingExposure = value;
     });
+  }
+
+  setLighting() {
+    let envmap = this.textures.envmap;
+    this.scene.environment = envmap;
+    this.textures.envmap = envmap;
+    this.scene.environmentIntensity = 0.2;
   }
 
   addMobileTexturePlane() {
@@ -338,6 +346,18 @@ export default class LiquidGlassMeshes extends Three {
     noise.wrapS = THREE.RepeatWrapping;
     noise.wrapT = THREE.RepeatWrapping;
     this.textures.noise = noise;
+
+    let envmapLoader = new THREE.CubeTextureLoader();
+    let envmap = envmapLoader.load([
+      "envmap1/px.png",
+      "envmap1/nx.png",
+      "envmap1/py.png",
+      "envmap1/ny.png",
+      "envmap1/pz.png",
+      "envmap1/nz.png",
+    ]);
+    envmap.colorSpace = THREE.SRGBColorSpace;
+    this.textures.envmap = envmap;
   }
 
   createMaterial(name, parameters, samples = 16) {
@@ -481,7 +501,7 @@ export default class LiquidGlassMeshes extends Three {
       mesh: null,
       timeline: null,
       offset: 64,
-      rangeTop: 80,
+      rangeTop: 40,
       rangeBottom: 4,
       limitTop: 0,
       limitBottom: 0,
@@ -555,6 +575,7 @@ export default class LiquidGlassMeshes extends Three {
             },
             depthWrite: true,
             depthTest: true,
+            visible: false,
             // transparent: true,
             // toneMapped: false,
             // blending: THREE.NormalBlending,
@@ -569,7 +590,7 @@ export default class LiquidGlassMeshes extends Three {
 
           let cutoutGeometry = new THREE.PlaneGeometry(
             capsule.width + 64,
-            capsule.height * 0.5 + 16
+            capsule.height * 0.5 + 48
           );
           cutoutGeometry.rotateX(-Math.PI * 0.5);
           let cutoutMaterial = new THREE.MeshBasicMaterial({
@@ -579,7 +600,7 @@ export default class LiquidGlassMeshes extends Three {
             toneMapped: false,
           });
           let cutout = new THREE.Mesh(cutoutGeometry, cutoutMaterial);
-          cutout.position.set(0, -100, capsule.height * 0.25);
+          cutout.position.set(0, -100, capsule.height * 0.25 + 24);
           mesh.add(cutout);
 
           let mask = new THREE.Mesh(capsule.geometry, this.maskMaterial);

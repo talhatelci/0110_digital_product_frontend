@@ -70,8 +70,8 @@ export default class Three {
     this.renderer.setPixelRatio(this.sizes.pixelRatio);
     this.renderer.setClearColor(0x000000, 0);
     this.renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
-    this.renderer.toneMapping = 4;
-    this.renderer.toneMappingExposure = 1.3;
+    this.renderer.toneMapping = 1;
+    this.renderer.toneMappingExposure = 1;
 
     this.clock = new THREE.Clock();
   }
