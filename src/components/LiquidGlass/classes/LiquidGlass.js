@@ -575,7 +575,7 @@ export default class LiquidGlassMeshes extends Three {
             },
             depthWrite: true,
             depthTest: true,
-            visible: false,
+            // visible: false,
             // transparent: true,
             // toneMapped: false,
             // blending: THREE.NormalBlending,
@@ -583,7 +583,7 @@ export default class LiquidGlassMeshes extends Three {
           let layer = new THREE.Mesh(layerGeometry, layerMaterial);
           layer.renderOrder = 1;
 
-          layer.position.set(0, -200, capsule.height * 0.25 - 8);
+          layer.position.set(0, -200, capsule.height * 0.25);
           capsule.layer = layer;
 
           mesh.add(layer);
