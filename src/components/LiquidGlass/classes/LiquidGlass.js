@@ -29,16 +29,16 @@ const CAPSULE_PARAMS = {
   metalness: 0.0,
   clearcoat: 0.0,
   clearcoatRoughness: 0.0,
-  ior: 1.3,
+  ior: 1.5,
   iridescence: 1,
   iridescenceIOR: 1,
-  thickness: 68,
-  reflectivity: 0.3,
+  thickness: 70,
+  reflectivity: 0.4,
 
   // Transition Material
   transmissionSampler: true,
   chromaticAberration: 0.08,
-  anisotrophicBlur: 0.08,
+  anisotrophicBlur: 0.0,
   distortion: 0,
   distortionScale: 0.0,
   temporalDistortion: 0,
@@ -169,10 +169,10 @@ export default class LiquidGlassMeshes extends Three {
   }
 
   setLighting() {
-    let envmap = this.textures.envmap;
-    this.scene.environment = envmap;
-    this.textures.envmap = envmap;
-    this.scene.environmentIntensity = 0.2;
+    // let envmap = this.textures.envmap;
+    // this.scene.environment = envmap;
+    // this.textures.envmap = envmap;
+    // this.scene.environmentIntensity = 0.2;
   }
 
   addMobileTexturePlane() {
@@ -355,17 +355,17 @@ export default class LiquidGlassMeshes extends Three {
     noise.wrapT = THREE.RepeatWrapping;
     this.textures.noise = noise;
 
-    let envmapLoader = new THREE.CubeTextureLoader();
-    let envmap = envmapLoader.load([
-      "envmap1/px.png",
-      "envmap1/nx.png",
-      "envmap1/py.png",
-      "envmap1/ny.png",
-      "envmap1/pz.png",
-      "envmap1/nz.png",
-    ]);
-    envmap.colorSpace = THREE.SRGBColorSpace;
-    this.textures.envmap = envmap;
+    // let envmapLoader = new THREE.CubeTextureLoader();
+    // let envmap = envmapLoader.load([
+    //   "envmap1/px.png",
+    //   "envmap1/nx.png",
+    //   "envmap1/py.png",
+    //   "envmap1/ny.png",
+    //   "envmap1/pz.png",
+    //   "envmap1/nz.png",
+    // ]);
+    // envmap.colorSpace = THREE.SRGBColorSpace;
+    // this.textures.envmap = envmap;
   }
 
   createMaterial(name, parameters, samples = 16) {
@@ -670,6 +670,8 @@ export default class LiquidGlassMeshes extends Three {
           capsule.mesh.position.z
         );
       capsule.layer.material.uniforms.uProgress.value = p;
+
+      // this.scene.environmentIntensity = p * 0.2;
     });
 
     window.addEventListener("resize", createCapsuleMesh);
