@@ -47,10 +47,10 @@ const CAPSULE_PARAMS = {
 const CARD_PARAMS = {
   // Physical Material
   roughness: 0,
-  metalness: 0.02,
+  metalness: 0.04,
   clearcoat: 0.1,
   clearcoatRoughness: 0.05,
-  ior: 1.7,
+  ior: 1.3,
   iridescence: 1,
   iridescenceIOR: 1.4,
   thickness: 124,
@@ -58,7 +58,7 @@ const CARD_PARAMS = {
 
   // Transition Material
   transmissionSampler: true,
-  chromaticAberration: 0.2,
+  chromaticAberration: 0.25,
   anisotrophicBlur: 0.1,
   distortion: 0,
   distortionScale: 0.0,
@@ -152,6 +152,7 @@ export default class LiquidGlassMeshes extends Three {
   setPanel() {
     this.panel = new lil.GUI();
     this.panel.close();
+    this.panel.hide();
 
     let params = {
       toneMapping: this.renderer.toneMapping,
@@ -470,7 +471,7 @@ export default class LiquidGlassMeshes extends Three {
   }
 
   setMaterials() {
-    this.capsuleMaterial = this.createMaterial("Capsule", CAPSULE_PARAMS);
+    this.capsuleMaterial = this.createMaterial("Capsule", CAPSULE_PARAMS, 24);
     this.cardMaterial = this.createMaterial("Card", CARD_PARAMS);
 
     this.cardMaterial.transparent = true;
@@ -602,7 +603,7 @@ export default class LiquidGlassMeshes extends Three {
           let layer = new THREE.Mesh(layerGeometry, layerMaterial);
           layer.renderOrder = 1;
 
-          layer.position.set(0, -200, capsule.height * 0.25 - 8);
+          layer.position.set(0, -200, capsule.height * 0.25 - 12);
           capsule.layer = layer;
 
           mesh.add(layer);
@@ -670,7 +671,7 @@ export default class LiquidGlassMeshes extends Three {
 
       // capsule.mesh.position.z = targetY; // Instant update
 
-      capsule.mesh.position.z -= (capsule.mesh.position.z - targetY) * 0.03;
+      capsule.mesh.position.z -= (capsule.mesh.position.z - targetY) * 0.08;
       this.references.logoOverlayBorder.style.top =
         capsule.mesh.position.z + this.sizes.height * 0.5 + "px";
 

@@ -33,7 +33,7 @@ void main() {
   // alpha *= smoothstep(0.1, 0.8, mask1);
 
   vec2 discardUv = vUv;
-  discardUv.y += uProgress * 0.25;
+  discardUv.y += uProgress * 0.29;
   float discardMask = texture2D(uMask2, discardUv).r;
   discardMask = smoothstep(0.4, 0.6, discardMask);
   if (discardMask > 0.5) discard;
