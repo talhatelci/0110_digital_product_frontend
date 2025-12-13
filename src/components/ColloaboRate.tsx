@@ -74,7 +74,7 @@ const CollaboratePopup: React.FC<CollaboratePopupProps> = ({ isOpen, onClose }) 
   if (showSuccess) {
     return createPortal(
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-[5px] flex items-center justify-center z-50"
+        className="fixed inset-0 bg-black/50 backdrop-blur-[5px] flex items-center justify-center z-[1000]"
         onClick={onClose}
       >
         <div className="bg-white rounded-sm text-center px-10 py-10 w-[95%] md:w-full max-w-[480px] shadow-lg">
