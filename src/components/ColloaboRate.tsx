@@ -17,27 +17,33 @@ const CollaboratePopup: React.FC<CollaboratePopupProps> = ({ isOpen, onClose }) 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const [showEmailWarning, setShowEmailWarning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const messageSentRef = useRef(null);
   const messageSentTl = useRef(gsap.timeline());
 
   useEffect(() => {
-    if (!containerRef.current) {
+    if (isOpen) {
+      setShowSuccess(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() =>  {
+    if (!showSuccess) {
       return;
     }
 
     let tl = messageSentTl.current;
     tl.clear();
-    tl.pause();
-    tl.fromTo(containerRef.current, {
+    tl.fromTo(messageSentRef.current, {
       opacity: 1,
     }, {
       opacity: 0,
       duration: 0.3,
       delay: 2,
       onComplete: () => {
-        onClose();
+        onPopupClose();
       }
     });
-  }, [isOpen]);
+  }, [showSuccess]);
 
   const onPopupClose = () => {
     messageSentTl.current.clear();
@@ -123,6 +129,7 @@ const CollaboratePopup: React.FC<CollaboratePopupProps> = ({ isOpen, onClose }) 
   if (showSuccess) {
     return createPortal(
       <div
+        ref={messageSentRef}
         className="fixed inset-0 bg-black/50 backdrop-blur-[5px] flex items-center justify-center z-[1000]"
         onClick={onPopupClose}
       >
@@ -136,8 +143,7 @@ const CollaboratePopup: React.FC<CollaboratePopupProps> = ({ isOpen, onClose }) 
 
   return createPortal(
     <div
-      ref={containerRef}
-      className="fixed inset-0 bg-black/50 backdrop-blur-[5px] flex items-center justify-center z-[1000]"
+      className="popup-container fixed inset-0 bg-black/50 backdrop-blur-[5px] flex items-center justify-center z-[1000]"
       onClick={onPopupClose}
     >
       <div
@@ -249,7 +255,7 @@ const CollaboratePopup: React.FC<CollaboratePopupProps> = ({ isOpen, onClose }) 
       )}
 
     </div>,
-    document.body
+    document.body,
   );
 };
 
