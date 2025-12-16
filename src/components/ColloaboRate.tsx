@@ -16,7 +16,6 @@ const CollaboratePopup: React.FC<CollaboratePopupProps> = ({ isOpen, onClose }) 
 
   const emailInputRef = useRef<HTMLInputElement>(null);
   const [showEmailWarning, setShowEmailWarning] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
   const messageSentRef = useRef(null);
   const messageSentTl = useRef(gsap.timeline());
 
